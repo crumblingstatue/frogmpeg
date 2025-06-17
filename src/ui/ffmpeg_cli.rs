@@ -4,6 +4,7 @@ use {
         SourceMarkers,
         config::{Config, VideoOutPreset},
         ffmpeg::resolve_arguments,
+        mpv::{Mpv, properties::PixelFormat},
         source,
     },
     core::f32,
@@ -84,6 +85,7 @@ pub fn ffmpeg_cli_ui(
     texts: &[crate::text::Text],
     src_info: &source::Info,
     cfg: &mut Config,
+    mpv: &Mpv,
 ) {
     if let Some(opt_content) = ui_state.ffmpeg_cli.optional_content {
         egui::SidePanel::right("opt_right_panel").show_inside(ui, |ui| match opt_content {
@@ -110,22 +112,35 @@ pub fn ffmpeg_cli_ui(
                 args_str.push_str(&format!("{i}: `{arg}`\n"));
             }
             ui.label(egui::RichText::new(args_str).color(egui::Color32::GOLD));
-            if ui.button("run (ctrl+enter)").clicked() || ctrl_enter {
-                ui_state.ffmpeg_cli.exit_status = None;
-                ui_state.ffmpeg_cli.err_str.clear();
-                ui_state.ffmpeg_cli.stderr.clear();
-                ui_state.ffmpeg_cli.stdout.clear();
-                match crate::ffmpeg::invoke(
-                    &ui_state.ffmpeg_cli.source_string,
-                    source_markers,
-                    texts,
-                    src_info,
-                    cfg,
-                ) {
-                    Ok(child) => ui_state.ffmpeg_cli.child = Some(child),
-                    Err(e) => ui_state.ffmpeg_cli.err_str = e.to_string(),
+            ui.horizontal(|ui| {
+                if ui.button("run (ctrl+enter)").clicked() || ctrl_enter {
+                    ui_state.ffmpeg_cli.exit_status = None;
+                    ui_state.ffmpeg_cli.err_str.clear();
+                    ui_state.ffmpeg_cli.stderr.clear();
+                    ui_state.ffmpeg_cli.stdout.clear();
+                    match crate::ffmpeg::invoke(
+                        &ui_state.ffmpeg_cli.source_string,
+                        source_markers,
+                        texts,
+                        src_info,
+                        cfg,
+                    ) {
+                        Ok(child) => ui_state.ffmpeg_cli.child = Some(child),
+                        Err(e) => ui_state.ffmpeg_cli.err_str = e.to_string(),
+                    }
                 }
-            }
+                if let Some(pix_fmt) = mpv.get_property::<PixelFormat>() {
+                    let color = if pix_fmt == "yuv420p" {
+                        egui::Color32::GREEN
+                    } else {
+                        egui::Color32::RED
+                    };
+                    ui.label(
+                        egui::RichText::new(format!("Source video pixel format: {pix_fmt}"))
+                            .color(color),
+                    );
+                }
+            });
         }
         Err(e) => {
             ui.label(egui::RichText::new(e.to_string()).color(egui::Color32::RED));

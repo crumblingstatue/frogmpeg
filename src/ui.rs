@@ -116,6 +116,7 @@ pub(crate) fn ui(
                 &app_state.texts,
                 &app_state.src,
                 cfg,
+                mpv,
             );
         });
         ui_state.ffmpeg_cli.first_frame = false;

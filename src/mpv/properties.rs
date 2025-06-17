@@ -49,6 +49,16 @@ unsafe impl<'mpv> Property for Path<'mpv> {
     const NAME: &'static CStr = c"path";
 }
 
+pub struct PixelFormat<'mpv> {
+    _phantom: PhantomData<&'mpv str>,
+}
+
+unsafe impl<'mpv> Property for PixelFormat<'mpv> {
+    type Type = &'mpv str;
+
+    const NAME: &'static CStr = c"video-params/pixelformat";
+}
+
 unsafe impl PropertyWrite for TimePos {}
 unsafe impl PropertyWrite for Speed {}
 unsafe impl PropertyWrite for Volume {}
