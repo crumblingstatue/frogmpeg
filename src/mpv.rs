@@ -123,7 +123,7 @@ impl Mpv {
                 std::mem::zeroed(),
             ];
             let result = ffi::mpv_render_context_render(self.render_ctx, params.as_mut_ptr());
-            for [.., a] in self.pix_buf.array_chunks_mut::<4>() {
+            for [.., a] in self.pix_buf.as_chunks_mut::<4>().0 {
                 *a = 255;
             }
             if result < 0 {
