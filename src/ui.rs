@@ -215,10 +215,10 @@ fn bottom_bar_ui(
                 ui_state.file_op = FileOp::Kashimark;
             }
             if let Some(subs) = &mut app_state.subs {
-                if ui.button("↻ Reload kashimark subs").clicked() {
-                    if let Err(e) = subs.reload() {
-                        ui_state.modal.err(format!("Error reloading subs: {e}"));
-                    }
+                if ui.button("↻ Reload kashimark subs").clicked()
+                    && let Err(e) = subs.reload()
+                {
+                    ui_state.modal.err(format!("Error reloading subs: {e}"));
                 }
                 if ui.button("Load sub timings...").clicked() {
                     ui_state.file_dialog.pick_file();
@@ -306,19 +306,18 @@ fn bottom_bar_ui(
                 }
                 if let Some(reload) = subs.timings_reload_sentry()
                     && ui.button("↻ Reload sub timings from file").clicked()
+                    && let Err(e) = reload.reload()
                 {
-                    if let Err(e) = reload.reload() {
-                        ui_state.modal.err(format!("Error reloading timings: {e}"));
-                    }
+                    ui_state.modal.err(format!("Error reloading timings: {e}"));
                 }
             }
             ui.separator();
-            if ui.button("Open config file").clicked() {
-                if let Err(e) = config::shell_open() {
-                    ui_state
-                        .modal
-                        .err(format!("Error opening config file: {e}"));
-                }
+            if ui.button("Open config file").clicked()
+                && let Err(e) = config::shell_open()
+            {
+                ui_state
+                    .modal
+                    .err(format!("Error opening config file: {e}"));
             }
             ui.separator();
             if ui.button("🚪 Quit").clicked() {
