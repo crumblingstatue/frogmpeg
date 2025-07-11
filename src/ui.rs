@@ -200,12 +200,10 @@ fn bottom_bar_ui(
             if ui.button("Load media file...").clicked() {
                 ui_state.file_dialog.pick_file();
                 ui_state.file_op = FileOp::MediaFile;
-                ui.close_menu();
             }
             ui.menu_button("Recent", |ui| {
                 for item in cfg.recently_used_list.iter() {
                     if ui.button(item).clicked() {
-                        ui.close_menu();
                         mpv.command_async(LoadFile { path: item });
                         cfg.recently_used_list.use_(item.clone());
                         return;
@@ -215,11 +213,9 @@ fn bottom_bar_ui(
             if ui.button("Load kashimark subs...").clicked() {
                 ui_state.file_dialog.pick_file();
                 ui_state.file_op = FileOp::Kashimark;
-                ui.close_menu();
             }
             if let Some(subs) = &mut app_state.subs {
                 if ui.button("↻ Reload kashimark subs").clicked() {
-                    ui.close_menu();
                     if let Err(e) = subs.reload() {
                         ui_state.modal.err(format!("Error reloading subs: {e}"));
                     }
@@ -227,12 +223,10 @@ fn bottom_bar_ui(
                 if ui.button("Load sub timings...").clicked() {
                     ui_state.file_dialog.pick_file();
                     ui_state.file_op = FileOp::SubTimings;
-                    ui.close_menu();
                 }
             }
             if ui.button("Reset pan").clicked() {
                 app_state.interact.pan_pos = VideoPos::new(0, 0);
-                ui.close_menu();
             }
             ui.menu_button("Video size", |ui| {
                 let Some(present) = &mut app_state.present else {
@@ -244,7 +238,6 @@ fn bottom_bar_ui(
                     present.dim.x = app_state.src.dim.x as VideoMag;
                     present.dim.y = app_state.src.dim.y as VideoMag;
                     present_size_changed = true;
-                    ui.close_menu();
                 }
                 if ui.button("Fit").clicked() {
                     present.dim.y = app_state.video_area_max_dim.y;
@@ -255,7 +248,6 @@ fn bottom_bar_ui(
                             (present.dim.x as f64 / app_state.src.w_h_ratio) as VideoMag;
                     }
                     present_size_changed = true;
-                    ui.close_menu();
                 }
                 ui.label("Width");
                 if ui.add(egui::DragValue::new(&mut present.dim.x)).changed() {
@@ -293,7 +285,6 @@ fn bottom_bar_ui(
                     }
                 });
             } else if ui.button("Set audio track to 1").clicked() {
-                ui.close_menu();
                 mpv.set_property::<AudioId>(1);
             }
             if let Some(mut current) = mpv.get_property::<SubId>() {
@@ -304,22 +295,18 @@ fn bottom_bar_ui(
                     }
                 });
             } else if ui.button("Set sub track to 1").clicked() {
-                ui.close_menu();
                 mpv.set_property::<SubId>(1);
             }
             if let Some(subs) = &mut app_state.subs {
                 if ui.button("Clear sub timings").clicked() {
-                    ui.close_menu();
                     subs.clear();
                 }
                 if ui.button("Save sub timings to file").clicked() {
-                    ui.close_menu();
                     subs.save_timings();
                 }
                 if let Some(reload) = subs.timings_reload_sentry()
                     && ui.button("↻ Reload sub timings from file").clicked()
                 {
-                    ui.close_menu();
                     if let Err(e) = reload.reload() {
                         ui_state.modal.err(format!("Error reloading timings: {e}"));
                     }
@@ -327,7 +314,6 @@ fn bottom_bar_ui(
             }
             ui.separator();
             if ui.button("Open config file").clicked() {
-                ui.close_menu();
                 if let Err(e) = config::shell_open() {
                     ui_state
                         .modal

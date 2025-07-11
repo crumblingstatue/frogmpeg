@@ -8,19 +8,19 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.75"
 clap = { version = "4.5.20", features = ["derive"] }
-egui-sf2g = "0.4"
+egui-sf2g = "0.5"
 sf2g.version = "0.4"
 sf2g.features = ["text"]
 sf2g-xt = "0.4"
 libmpv-sys = { git = "https://github.com/crumblingstatue/libmpv-rs.git" }
 rand = "0.9.0"
-egui-file-dialog = "0.10.0"
+egui-file-dialog = "0.11.0"
 shell-words = "1.1.0"
 thiserror = "2"
 kashimark.git = "https://github.com/crumblingstatue/kashimark.git"
 dirs = "6.0.0"
 recently_used_list.git = "https://github.com/crumblingstatue/recently_used_list.git"
-toml = "0.8.20"
+toml = "0.9"
 serde = { version = "1.0.218", features = ["derive"] }
 
 [profile.release]
