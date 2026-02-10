@@ -38,7 +38,7 @@ impl Mpv {
                     conf_path.as_os_str().as_encoded_bytes().as_ptr() as *const std::ffi::c_char,
                 );
                 if result != 0 {
-                    eprintln!("Error when loading config file (code {result})");
+                    eprintln!("Error when loading mpv config file (code {result})");
                 }
             }
         }
