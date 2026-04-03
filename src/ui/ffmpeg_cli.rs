@@ -88,7 +88,7 @@ pub fn ffmpeg_cli_ui(
     mpv: &Mpv,
 ) {
     if let Some(opt_content) = ui_state.ffmpeg_cli.optional_content {
-        egui::SidePanel::right("opt_right_panel").show_inside(ui, |ui| match opt_content {
+        egui::Panel::right("opt_right_panel").show_inside(ui, |ui| match opt_content {
             OptContent::CookBook => cook_book_ui(ui, ui_state),
             OptContent::VoPresets => vo_presets_ui(ui, ui_state, cfg),
         });

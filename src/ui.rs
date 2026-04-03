@@ -16,7 +16,7 @@ use {
     egui_file_dialog::FileDialog,
     egui_sf2g::egui::{self},
     ffmpeg_cli::{FfmpegCli, ffmpeg_cli_ui},
-    rand::Rng as _,
+    rand::RngExt as _,
 };
 
 pub struct UiState {
@@ -82,17 +82,17 @@ impl Default for UiState {
 }
 
 pub(crate) fn ui(
-    ctx: &egui::Context,
+    ui: &mut egui::Ui,
     mpv: &mut Mpv,
     app_state: &mut AppState,
     ui_state: &mut UiState,
     cfg: &mut Config,
 ) {
-    let re = egui::TopBottomPanel::bottom("bottom_panel").show(ctx, |ui| {
+    let re = egui::Panel::bottom("bottom_panel").show_inside(ui, |ui| {
         bottom_bar_ui(ui, ui_state, mpv, app_state, cfg);
     });
     app_state.video_area_max_dim.y = re.response.rect.top() as VideoMag;
-    let re = egui::SidePanel::right("right_panel").show(ctx, |ui| {
+    let re = egui::Panel::right("right_panel").show_inside(ui, |ui| {
         right_panel::ui(
             ui,
             &mut ui_state.right_panel,
@@ -105,7 +105,7 @@ pub(crate) fn ui(
     });
     app_state.video_area_max_dim.x = re.response.rect.left() as VideoMag;
     if ui_state.ffmpeg_cli.open {
-        egui::Window::new("ffmpeg").show(ctx, |ui| {
+        egui::Window::new("ffmpeg").show(ui, |ui| {
             if let Some(path) = mpv.get_property::<Path>() {
                 app_state.src.path = path.to_owned();
             }
@@ -121,7 +121,7 @@ pub(crate) fn ui(
         });
         ui_state.ffmpeg_cli.first_frame = false;
     }
-    ui_state.file_dialog.update(ctx);
+    ui_state.file_dialog.update(ui);
     if let Some(path) = ui_state.file_dialog.take_picked() {
         match ui_state.file_op {
             FileOp::MediaFile => {
@@ -149,7 +149,7 @@ pub(crate) fn ui(
             }
         }
     }
-    ui_state.modal.show(ctx);
+    ui_state.modal.show(ui);
 }
 
 fn bottom_bar_ui(

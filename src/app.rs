@@ -93,8 +93,8 @@ impl AppState {
 impl App {
     pub fn handle_keypress(&mut self, code: Key, ctrl: bool) {
         let egui_ctx = self.sf_egui.context();
-        if egui_ctx.wants_keyboard_input()
-            || self.ui_state.file_dialog.state() == egui_file_dialog::DialogState::Open
+        if egui_ctx.egui_wants_keyboard_input()
+            || self.ui_state.file_dialog.state() == &egui_file_dialog::DialogState::Open
         {
             return;
         }
@@ -244,8 +244,8 @@ impl App {
             })
             .unwrap();
         // We wait until the egui ui has run, so we know if it wanted input or not
-        let wants_kb = self.sf_egui.context().wants_keyboard_input();
-        let wants_ptr = self.sf_egui.context().wants_pointer_input();
+        let wants_kb = self.sf_egui.context().egui_wants_keyboard_input();
+        let wants_ptr = self.sf_egui.context().egui_wants_pointer_input();
         for event in collected_events {
             self.handle_delayed_event(event, wants_kb, wants_ptr);
         }
