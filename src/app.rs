@@ -307,10 +307,8 @@ impl App {
             self.state.video_area_max_dim,
         );
         match event {
-            Event::KeyPressed { code, ctrl, .. } => {
-                if !wants_kb {
-                    self.handle_keypress(code, ctrl);
-                }
+            Event::KeyPressed { code, ctrl, .. } if !wants_kb => {
+                self.handle_keypress(code, ctrl);
             }
 
             Event::MouseButtonPressed {
