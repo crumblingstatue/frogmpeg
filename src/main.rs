@@ -3,7 +3,6 @@
 #![expect(incomplete_features)]
 
 use {
-    crate::mpv::properties::{CropH, CropW, CropY, Rotate},
     app::App,
     clap::Parser,
     config::Config,
@@ -11,7 +10,7 @@ use {
     egui_sf2g::sf2g::graphics::Font,
     mpv::{
         commands::LoadFile,
-        properties::{AudioPitchCorrection, CropX, Height, KeepOpen, KeepOpenPause, Volume, Width},
+        properties::{AudioPitchCorrection, Height, KeepOpen, KeepOpenPause, Volume, Width},
         property::{YesNo, YesNoAlways},
     },
     ui::EguiFriendlyColor,
@@ -163,16 +162,6 @@ fn main() {
         && let Some(path) = args.gen_ass
     {
         subs.write_ass(&path, actual_video_w, actual_video_h);
-        return;
-    }
-    let crop_x = app.mpv.get_property::<CropX>().unwrap_or(0);
-    let crop_y = app.mpv.get_property::<CropY>().unwrap_or(0);
-    let crop_w = app.mpv.get_property::<CropW>().unwrap_or(0);
-    let crop_h = app.mpv.get_property::<CropH>().unwrap_or(0);
-    let rotate = app.mpv.get_property::<Rotate>().unwrap_or(0);
-    dbg!(crop_x, crop_y, crop_w, crop_h, rotate);
-    if rotate != 0 {
-        eprintln!("Rotated videos are currently unsupported");
         return;
     }
 

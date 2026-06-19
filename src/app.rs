@@ -160,6 +160,15 @@ impl App {
                 MpvEvent::VideoReconfig => {
                     let actual_video_w = self.mpv.get_property::<p::Width>().unwrap_or(0);
                     let actual_video_h = self.mpv.get_property::<p::Height>().unwrap_or(0);
+                    let crop_x = self.mpv.get_property::<p::CropX>().unwrap_or(0);
+                    let crop_y = self.mpv.get_property::<p::CropY>().unwrap_or(0);
+                    let crop_w = self.mpv.get_property::<p::CropW>().unwrap_or(0);
+                    let crop_h = self.mpv.get_property::<p::CropH>().unwrap_or(0);
+                    let rotate = self.mpv.get_property::<p::Rotate>().unwrap_or(0);
+                    dbg!(crop_x, crop_y, crop_w, crop_h, rotate);
+                    if rotate != 0 {
+                        panic!("Rotated videos are currently unsupported");
+                    }
                     self.state.src.dim =
                         VideoDim::new(actual_video_w as VideoMag, actual_video_h as VideoMag);
                     eprintln!("Video reconfig {:#?}", self.state.src.dim);
