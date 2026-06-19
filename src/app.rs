@@ -167,7 +167,10 @@ impl App {
                     let rotate = self.mpv.get_property::<p::Rotate>().unwrap_or(0);
                     dbg!(crop_x, crop_y, crop_w, crop_h, rotate);
                     if rotate != 0 {
-                        panic!("Rotated videos are currently unsupported");
+                        panic!(
+                            "Rotated videos are currently unsupported\n\
+                                A simple reencode with ffmpeg (no special params needed) should pre-bake the rotation"
+                        );
                     }
                     self.state.src.dim =
                         VideoDim::new(actual_video_w as VideoMag, actual_video_h as VideoMag);
