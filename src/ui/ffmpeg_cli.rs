@@ -7,7 +7,6 @@ use {
         mpv::{Mpv, properties::PixelFormat},
         source,
     },
-    core::f32,
     egui_sf2g::egui::{self, TextBuffer},
     std::io::Read as _,
 };
