@@ -7,6 +7,7 @@ use std::ffi::{CStr, CString};
 /// Must make sure `ARGS_COUNT` is correct
 pub unsafe trait Command {
     const NAME: &'static CStr;
-    const ARGS_COUNT: usize;
+    type const ARGS_COUNT: usize;
+    const ARGS_ARRAY_LEN: usize = const { Self::ARGS_COUNT + 2 };
     fn args(&self) -> [CString; Self::ARGS_COUNT];
 }

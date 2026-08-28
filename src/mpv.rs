@@ -79,11 +79,8 @@ impl Mpv {
             idle: false,
         })
     }
-    pub fn command_async<C: Command>(&mut self, command: C)
-    where
-        [(); C::ARGS_COUNT + 2]:,
-    {
-        let mut args_buf = [std::ptr::null(); C::ARGS_COUNT + 2];
+    pub fn command_async<C: Command>(&mut self, command: C) {
+        let mut args_buf = [std::ptr::null(); <C as Command>::ARGS_ARRAY_LEN];
         args_buf[0] = C::NAME.as_ptr();
         let args = command.args();
         for (i, arg) in args.iter().enumerate() {

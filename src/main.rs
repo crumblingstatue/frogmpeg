@@ -1,4 +1,9 @@
-#![feature(generic_const_exprs, default_field_values)]
+#![feature(
+    macroless_generic_const_args,
+    min_generic_const_args,
+    generic_const_args,
+    default_field_values
+)]
 // We make light use of generic_const_exprs, which is an incomplete feature
 #![expect(incomplete_features)]
 

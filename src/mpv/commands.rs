@@ -9,9 +9,9 @@ pub struct LoadFile<'a> {
 
 unsafe impl Command for LoadFile<'_> {
     const NAME: &'static CStr = c"loadfile";
-    const ARGS_COUNT: usize = 1;
+    type const ARGS_COUNT: usize = 1;
 
-    fn args(&self) -> [CString; Self::ARGS_COUNT] {
+    fn args(&self) -> [CString; <Self as Command>::ARGS_COUNT] {
         [CString::new(self.path).unwrap()]
     }
 }
@@ -21,9 +21,9 @@ pub struct FrameStep;
 unsafe impl Command for FrameStep {
     const NAME: &'static CStr = c"frame-step";
 
-    const ARGS_COUNT: usize = 0;
+    type const ARGS_COUNT: usize = 0;
 
-    fn args(&self) -> [CString; Self::ARGS_COUNT] {
+    fn args(&self) -> [CString; <Self as Command>::ARGS_COUNT] {
         []
     }
 }
@@ -33,9 +33,9 @@ pub struct FrameBackStep;
 unsafe impl Command for FrameBackStep {
     const NAME: &'static CStr = c"frame-back-step";
 
-    const ARGS_COUNT: usize = 0;
+    type const ARGS_COUNT: usize = 0;
 
-    fn args(&self) -> [CString; Self::ARGS_COUNT] {
+    fn args(&self) -> [CString; <Self as Command>::ARGS_COUNT] {
         []
     }
 }
@@ -49,9 +49,9 @@ pub enum PlaylistPlay {
 unsafe impl Command for PlaylistPlay {
     const NAME: &'static CStr = c"playlist-play-index";
 
-    const ARGS_COUNT: usize = 1;
+    type const ARGS_COUNT: usize = 1;
 
-    fn args(&self) -> [CString; Self::ARGS_COUNT] {
+    fn args(&self) -> [CString; <Self as Command>::ARGS_COUNT] {
         let buf: String;
         let s = match self {
             PlaylistPlay::Index(idx) => {
@@ -69,9 +69,9 @@ pub struct SeekRelSeconds(pub f32);
 
 unsafe impl Command for SeekRelSeconds {
     const NAME: &'static CStr = c"seek";
-    const ARGS_COUNT: usize = 1;
+    type const ARGS_COUNT: usize = 1;
 
-    fn args(&self) -> [CString; Self::ARGS_COUNT] {
+    fn args(&self) -> [CString; <Self as Command>::ARGS_COUNT] {
         [CString::new(self.0.to_string()).unwrap()]
     }
 }
