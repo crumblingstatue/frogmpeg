@@ -8,13 +8,13 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.75"
 clap = { version = "4.6", features = ["derive"] }
-egui-sf2g = "0.7"
+egui-sf2g = "0.9"
 sf2g.version = "0.4"
 sf2g.features = ["text"]
 sf2g-xt = "0.4"
 libmpv-sys = { git = "https://github.com/crumblingstatue/libmpv-rs.git" }
 rand = "0.10.0"
-egui-file-dialog = "0.13.0"
+egui-file-dialog = "0.15.0"
 shell-words = "1.1.0"
 thiserror = "2"
 kashimark.git = "https://github.com/crumblingstatue/kashimark.git"

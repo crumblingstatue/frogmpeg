@@ -1,7 +1,11 @@
 use {
     crate::time_fmt::AssTimeFmt,
-    egui_sf2g::egui::{TextBuffer, ahash::HashMap},
-    std::{collections::VecDeque, fmt::Write as _, path::PathBuf},
+    egui_sf2g::egui::TextBuffer,
+    std::{
+        collections::{HashMap, VecDeque},
+        fmt::Write as _,
+        path::PathBuf,
+    },
 };
 
 pub struct SubsState {

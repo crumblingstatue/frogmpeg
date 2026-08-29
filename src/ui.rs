@@ -88,11 +88,11 @@ pub(crate) fn ui(
     ui_state: &mut UiState,
     cfg: &mut Config,
 ) {
-    let re = egui::Panel::bottom("bottom_panel").show_inside(ui, |ui| {
+    let re = egui::Panel::bottom("bottom_panel").show(ui, |ui| {
         bottom_bar_ui(ui, ui_state, mpv, app_state, cfg);
     });
     app_state.video_area_max_dim.y = re.response.rect.top() as VideoMag;
-    let re = egui::Panel::right("right_panel").show_inside(ui, |ui| {
+    let re = egui::Panel::right("right_panel").show(ui, |ui| {
         right_panel::ui(
             ui,
             &mut ui_state.right_panel,
