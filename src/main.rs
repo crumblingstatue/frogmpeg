@@ -4,7 +4,7 @@
     generic_const_args,
     default_field_values
 )]
-// We make light use of generic_const_exprs, which is an incomplete feature
+// We make light use of generic_const_args, which is an incomplete feature
 #![expect(incomplete_features)]
 
 use {
