@@ -11,7 +11,7 @@ macro_rules! def_properties {
 
             unsafe impl Property for $ident {
                 type Type = $ty;
-                const NAME: &'static CStr = $str;
+                const NAME: &CStr = $str;
             }
         )*
     };
@@ -46,7 +46,7 @@ pub struct Path<'mpv> {
 unsafe impl<'mpv> Property for Path<'mpv> {
     type Type = &'mpv str;
 
-    const NAME: &'static CStr = c"path";
+    const NAME: &CStr = c"path";
 }
 
 pub struct PixelFormat<'mpv> {
@@ -56,7 +56,7 @@ pub struct PixelFormat<'mpv> {
 unsafe impl<'mpv> Property for PixelFormat<'mpv> {
     type Type = &'mpv str;
 
-    const NAME: &'static CStr = c"video-params/pixelformat";
+    const NAME: &CStr = c"video-params/pixelformat";
 }
 
 unsafe impl PropertyWrite for TimePos {}
