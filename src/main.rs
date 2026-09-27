@@ -1,7 +1,7 @@
 #![feature(
-    macroless_generic_const_args,
-    min_generic_const_args,
-    generic_const_args,
+    gca_macroless_args,
+    gca_min_const_items,
+    gca_const_items,
     default_field_values
 )]
 // We make light use of generic_const_args, which is an incomplete feature
